@@ -149,7 +149,12 @@ def render():
 
         # render no-index HTML table
         html = topn.to_html(index=False, justify='center')
-        st.markdown(html, unsafe_allow_html=True)
+        scrollable_table = f"""
+        <div style="height:600px; overflow-y:auto; border:1px solid #ddd; border-radius:4px;">
+          {html}
+        </div>
+        """
+        st.markdown(scrollable_table, unsafe_allow_html=True)
 
     # ─── 5) ZIP Comparison ─────────────────────────────────────────────────────
     st.subheader("🔄 ZIP Comparison")
