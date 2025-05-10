@@ -122,22 +122,34 @@ def render():
             st.plotly_chart(fig_map, use_container_width=True)
 
         # ---- 4b) Top ZIPs table ----
-        with table_col:
-            hdr, chk = st.columns([4,2])
-            with hdr: st.subheader("👑 Top ZIP Codes")
-            with chk: show_all = st.checkbox("Show all ZIPs", key="show_all")
+    with table_col:
+        hdr, chk = st.columns([4,2])
+        with hdr: st.subheader("👑 Top ZIP Codes")
+        with chk: show_all = st.checkbox("Show all ZIPs", key="show_all")
 
-            n = len(filtered) if show_all else 5
-            topn = filtered.nlargest(n, "Wealth Score")[[
-                "Rank","ZIP Code","Area",
-                "Real_Median_Income","Private School Count",
-                "Real_Home_Value","Wealth Score"
-            ]]
-            topn.columns = [
-                "Rank","ZIP","Area","Median Income",
-                "Priv Schools","Home Value","Score"
-            ]
-            st.dataframe(topn, height=600, use_container_width=True)
+        n = len(filtered) if show_all else 5
+        topn = (
+            filtered
+              .nlargest(n, "Wealth Score")
+              [[ "Rank","ZIP Code","Area",
+                 "Real_Median_Income","Private School Count",
+                 "Real_Home_Value","Wealth Score" ]]
+        )
+        topn.columns = [
+            "Rank","ZIP","Area",
+            "Median Income","Priv Schools",
+            "Home Value","Score"
+        ]
+
+        # format dollars
+        topn['Median Income'] = topn['Median Income']\
+            .apply(lambda x: f"${x/1000:,.2f}K")
+        topn['Home Value']    = topn['Home Value']\
+            .apply(lambda x: f"${x/1000:,.2f}K")
+
+        # render no-index HTML table
+        html = topn.to_html(index=False, justify='center')
+        st.markdown(html, unsafe_allow_html=True)
 
     # ─── 5) ZIP Comparison ─────────────────────────────────────────────────────
     st.subheader("🔄 ZIP Comparison")
