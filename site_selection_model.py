@@ -129,7 +129,7 @@ def render():
 
             n = len(filtered) if show_all else 5
             topn = filtered.nlargest(n, "Wealth Score")[[
-                "ZIP Code","Area",
+                "ZIP Code","Area","Rank",
                 "Real_Median_Income","Private School Count",
                 "Real_Home_Value","Wealth Score"
             ]]
