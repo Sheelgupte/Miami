@@ -129,12 +129,12 @@ def render():
 
             n = len(filtered) if show_all else 5
             topn = filtered.nlargest(n, "Wealth Score")[[
-                "ZIP Code","Area",
+                "Rank","ZIP Code","Area",
                 "Real_Median_Income","Private School Count",
                 "Real_Home_Value","Wealth Score"
             ]]
             topn.columns = [
-                "ZIP","Area","Median Income",
+                "Rank","ZIP","Area","Median Income",
                 "Priv Schools","Home Value","Score"
             ]
             st.dataframe(topn, height=600, use_container_width=True)
