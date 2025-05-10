@@ -129,7 +129,7 @@ def render():
 
             n = len(filtered) if show_all else 5
             topn = filtered.nlargest(n, "Wealth Score")[[
-                "ZIP Code","Geographic Area Name",
+                "ZIP Code","Area",
                 "Real_Median_Income","Private School Count",
                 "Real_Home_Value","Wealth Score"
             ]]
@@ -165,7 +165,7 @@ def render():
             "Metric":[lbl for _,lbl in factors],
             "Value":[row[k] for k,_ in factors]
         })
-        col.markdown(f"**{zc} – {row['Geographic Area Name']}**")
+        col.markdown(f"**{zc} – {row['Area']}**")
         col.table(df_sum)
 
     # ─── 7) Radar & AI Insights ───────────────────────────────────────────────
@@ -194,32 +194,32 @@ def render():
         # highest rank
         best = sel['Rank'].idxmin(); br=sel.loc[best]
         sentences.append(
-            f"{best} ({br['Geographic Area Name']}) has the highest rank (#{int(br['Rank'])})."
+            f"{best} ({br['Area']}) has the highest rank (#{int(br['Rank'])})."
         )
         # highest median income
         hi = sel['Real_Median_Income'].idxmax(); hdr=sel.loc[hi]
         sentences.append(
-            f"{hi} ({hdr['Geographic Area Name']}) has the highest median income at ${hdr['Real_Median_Income']:,.0f}."
+            f"{hi} ({hdr['Area']}) has the highest median income at ${hdr['Real_Median_Income']:,.0f}."
         )
         # highest home value
         hv = sel['Real_Home_Value'].idxmax(); hvr=sel.loc[hv]
         sentences.append(
-            f"{hv} ({hvr['Geographic Area Name']}) has the highest home value at ${hvr['Real_Home_Value']:,.0f}."
+            f"{hv} ({hvr['Area']}) has the highest home value at ${hvr['Real_Home_Value']:,.0f}."
         )
         # most vessels
         vs = sel['Real_Boat_Count'].idxmax(); vr=sel.loc[vs]
         sentences.append(
-            f"{vs} ({vr['Geographic Area Name']}) has the most vessels ({int(vr['Real_Boat_Count'])})."
+            f"{vs} ({vr['Area']}) has the most vessels ({int(vr['Real_Boat_Count'])})."
         )
         # most schools
         ps = sel['Private School Count'].idxmax(); pr=sel.loc[ps]
         sentences.append(
-            f"{ps} ({pr['Geographic Area Name']}) has the most private schools ({int(pr['Private School Count'])})."
+            f"{ps} ({pr['Area']}) has the most private schools ({int(pr['Private School Count'])})."
         )
         # highest wealth
         ws = sel['Wealth Score'].idxmax(); wsr=sel.loc[ws]
         sentences.append(
-            f"{ws} ({wsr['Geographic Area Name']}) has the highest wealth score of {wsr['Wealth Score']:.2f}."
+            f"{ws} ({wsr['Area']}) has the highest wealth score of {wsr['Wealth Score']:.2f}."
         )
 
         for s in sentences:
