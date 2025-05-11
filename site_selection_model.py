@@ -86,11 +86,13 @@ def render():
                 st.error(f"Couldn’t fetch GeoJSON from:\n{geojson_url}\n\n{e}")
                 return
 
+            max_score = filtered["Wealth Score"].max()
+            thr = 0.6  # or 20/max_score if you like dynamic
             colorscale = [
                 [0.0, "lightblue"],
-                [0.4, "blue"],
-                [0.4, "red"],
-                [5.0, "red"],
+                [thr, "blue"],
+                [thr, "red"],
+                [1.0, "red"],
             ]
 
             fig_map = px.choropleth_mapbox(
