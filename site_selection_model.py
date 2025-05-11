@@ -90,7 +90,7 @@ def render():
                 [0.0, "lightblue"],
                 [0.4, "blue"],
                 [0.4, "red"],
-                [1.0, "red"],
+                [5.0, "red"],
             ]
 
             fig_map = px.choropleth_mapbox(
