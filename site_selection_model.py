@@ -199,8 +199,8 @@ def render():
     for col, zc in zip(sum_cols, selected_zips):
         row = filtered.set_index("ZIP Code").loc[zc]
         df_sum = pd.DataFrame({
-            "Metric": [lbl for _, lbl in factors],
-            "Value":  [row[k] for k, _ in factors]
+            "Metric": [lbl for _,lbl in summary_factors],
+            "Value":  [row[k] for k,_ in summary_factors]
         })
         col.markdown(f"**{zc} – {row['Area']}**")
         col.table(df_sum)
