@@ -88,7 +88,7 @@ def render():
                 
             # 1) figure out the absolute threshold = the 5th‐highest wealth score
             max_s = filtered["Wealth Score"].max()
-            top5 = filtered["Wealth Score"].nlargest(8)
+            top8 = filtered["Wealth Score"].nlargest(8)
             threshold_abs = top5.min() if len(top8) >= 8 else max_s  # fallback if <8 rows
             
             # 2) convert to a 0–1 fraction of the domain
