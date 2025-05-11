@@ -41,7 +41,7 @@ def render():
     # New maxima / direct columns
     MAX_HOMES = 2360
     MAX_INC   = 300_000
-    MAX_BOAT  = 15
+    MAX_BOAT  = 800
 
     df["Real_Median_Income"] = df["Median_Income"]
     df["Real_Mean_Income"]   = df["Mean_Income"]
