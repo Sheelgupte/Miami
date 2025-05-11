@@ -44,7 +44,7 @@ def render():
     MAX_BOAT  = 800
 
     df["Real_Median_Income"] = df["Median_Income"]
-    df["Real_Mean_Income"]   = df["Mean_Income"]
+    df["Real_Mean_Income"]   = df["Divorce Rate"]
     df["Real_Home_Count"]    = df["Home1MCount"]
     df["Real_Home_Growth"]   = df["HomeValueGrowth"] * 100
     df["Real_Boat_Count"]    = df["Recreational Vessel Count"]
