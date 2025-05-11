@@ -87,7 +87,7 @@ def render():
                 return
 
             max_score = filtered["Wealth Score"].max()
-            thr = 0.6  # or 20/max_score if you like dynamic
+            thr = 0.95  # or 20/max_score if you like dynamic
             colorscale = [
                 [0.0, "lightblue"],
                 [thr, "blue"],
