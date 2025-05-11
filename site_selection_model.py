@@ -47,7 +47,7 @@ def render():
     df["Real_Home_Count"]     = df["Home1MCount"]
     df["Real_Home_Growth"]    = df["HomeValueGrowth"] * 100
     df["Real_Boat_Count"]     = df["Recreational Vessel Count"]
-    df["Real_Divorce_Rate"]   = df["Divorce Rate (max 37%)"] * 100  # decimal→%
+    df["Real_Divorce_Rate"]   = df["Divorce Rate"] * 100  # decimal→%
     df["ZIP Code"]            = df["ZIP Code"].astype(str)
 
     # ─── 2) In-page filters (dynamic 3×2 grid) ────────────────────────────────
