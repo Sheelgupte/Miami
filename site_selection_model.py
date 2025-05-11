@@ -53,7 +53,7 @@ def render():
     # ─── 2) In-page filters (3×2) ──────────────────────────────────────────────
     c1, _, c2, __, c3 = st.columns([3,1,3,1,3])
     income_med  = c1.slider("Median Income", 20_000, MAX_INC, (20_000, MAX_INC), step=5_000)
-    DivRate = c2.slider("DivorceRate",   20_000, MAX_INC, (20_000, MAX_INC), step=5_000)
+    DivRate = c2.slider("DivorceRate",   0, 0.4, (0, 0.4))
     private_sch = c3.slider("Private School Count", 0, 15, (0, 15))
 
     c4, ___, c5, ____, c6 = st.columns([3,1,3,1,3])
