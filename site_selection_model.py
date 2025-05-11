@@ -46,7 +46,7 @@ def render():
     df["Real_Divorce_Rate"]   = df["Divorce Rate"] * 100
     df["ZIP Code"]            = df["ZIP Code"].astype(str)
 
-    # ─── 2) In-page filters (6 sliders, dynamic ranges) ────────────────────────
+       # ─── 2) In-page filters (6 sliders, dynamic ranges) ────────────────────────
     min_med, max_med     = int(df["Real_Median_Income"].min()), int(df["Real_Median_Income"].max())
     min_priv, max_priv   = int(df["Private School Count"].min()),    int(df["Private School Count"].max())
     min_boat, max_boat   = int(df["Real_Boat_Count"].min()),         int(df["Real_Boat_Count"].max())
@@ -54,7 +54,7 @@ def render():
     min_grw, max_grw     = float(df["Real_Home_Growth"].min()),      float(df["Real_Home_Growth"].max())
     min_div, max_div     = float(df["Real_Divorce_Rate"].min()),     float(df["Real_Divorce_Rate"].max())
 
-    # first row of sliders
+    # first row
     c1, _, c2, __, c3 = st.columns([3,1,3,1,3])
     income_med  = c1.slider(
         "Median Income",
@@ -75,7 +75,7 @@ def render():
         step=1
     )
 
-    # second row of sliders
+    # second row
     c4, ___, c5, ____, c6 = st.columns([3,1,3,1,3])
     homes_gt_1m = c4.slider(
         "Homes > $1M Count",
@@ -95,6 +95,7 @@ def render():
         (min_div, max_div),
         step=0.1
     )
+
 
     # ─── 3) Filter Data ────────────────────────────────────────────────────────
     filtered = df[
