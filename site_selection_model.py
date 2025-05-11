@@ -88,7 +88,7 @@ def render():
 
             colorscale = [
                 [0.0, "lightblue"],
-                [3.99, "blue"],
+                [1.0, "blue"],
                 [4.0, "red"],
                 [5.0, "red"],
             ]
