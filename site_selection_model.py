@@ -167,7 +167,7 @@ def render():
             # lock height & scroll
             html = topn.to_html(index=False, justify="center")
             scrollable = f"""
-            <div style="height:600px; overflow-y:auto; border:1px solid #ddd; border-radius:4px;">
+            <div style="height:640px; overflow-y:auto; border:1px solid #ddd; border-radius:4px;">
               {html}
             </div>
             """
