@@ -88,9 +88,9 @@ def render():
 
             colorscale = [
                 [0.0, "lightblue"],
-                [0.4, "blue"],
-                [0.4, "red"],
-                [1.0, "red"],
+                [3.99, "blue"],
+                [4.0, "red"],
+                [5.0, "red"],
             ]
 
             fig_map = px.choropleth_mapbox(
