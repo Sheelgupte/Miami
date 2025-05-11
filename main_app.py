@@ -57,7 +57,7 @@ def dashboard():
       .css-1v3fvcr h2 { font-size:24px !important; }
       /* enlarge each radio option label */
       label[data-baseweb="radio"] {
-        font-size: 18px !important;
+        font-size: 24px !important;
         font-weight: 600 !important;
       }
     </style>
