@@ -191,7 +191,7 @@ def render():
         ("Wealth Score","Wealth Score"),
         ("Recreational Vessel Count","Vessels"),
         ("Median_Income","Median Income"),
-        ("Real_Divorce_Rate","Divorce Rate (%)"),
+
         ("Real_Home_Count","Homes > $1M"),
     ]
 
