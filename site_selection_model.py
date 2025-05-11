@@ -41,12 +41,12 @@ def render():
     base = Path(__file__).parent
     df = pd.read_csv(base / "FL_Wealth_Ranking_Data.csv")
 
-    MAX_HOME, MAX_INC, MAX_BOAT = 5_000_000, 300_000, 15
-    df["Real_Median_Income"] = df["Median_Income"] * MAX_INC
-    df["Real_Mean_Income"]   = df["Mean_Income"]   * MAX_INC
-    df["Real_Home_Value"]    = df["HomeValue_2025_03"] * MAX_HOME
+    MAX_HOME, MAX_INC, MAX_BOAT = 2360, 300_000, 15
+    df["Real_Median_Income"] = df["Median_Income"] 
+    df["Real_Mean_Income"]   = df["Mean_Income"]   
+    df["Real_Home_Count"]    = df["Home1MCount"] 
     df["Real_Home_Growth"]   = df["HomeValueGrowth"]   * 100
-    df["Real_Boat_Count"]    = df["Recreational Vessel Count"] * MAX_BOAT
+    df["Real_Boat_Count"]    = df["Recreational Vessel Count"] 
     df["ZIP Code"]           = df["ZIP Code"].astype(str)
 
     # ─── 2) In‐page filters (3×2 grid) ────────────────────────────────────────
@@ -66,7 +66,7 @@ def render():
         df["Real_Mean_Income"].between(*income_mean) &
         df["Private School Count"].between(*private_sch) &
         df["Real_Boat_Count"].between(*boat_ct) &
-        df["Real_Home_Value"].between(*home_val) &
+        df["Real_Home_Count"].between(*home_val) &
         df["Real_Home_Growth"].between(*home_grw)
     ]
 
@@ -109,7 +109,7 @@ def render():
                 opacity=0.6,
                 hover_data={
                     "Real_Median_Income":True,
-                    "Real_Home_Value":True,
+                    "Real_Home_Count":True,
                     "Private School Count":True
                 }
             )
@@ -133,7 +133,7 @@ def render():
               .nlargest(n, "Wealth Score")
               [[ "Rank","ZIP Code","Area",
                  "Real_Median_Income","Private School Count",
-                 "Real_Home_Value","Wealth Score" ]]
+                 "Real_Home_Count","Wealth Score" ]]
         )
         topn.columns = [
             "Rank","ZIP","Area",
@@ -219,9 +219,9 @@ def render():
             f"{hi} ({hdr['Area']}) has the highest median income at ${hdr['Real_Median_Income']:,.0f}."
         )
         # highest home value
-        hv = sel['Real_Home_Value'].idxmax(); hvr=sel.loc[hv]
+        hv = sel['Real_Home_Count'].idxmax(); hvr=sel.loc[hv]
         sentences.append(
-            f"{hv} ({hvr['Area']}) has the highest home value at ${hvr['Real_Home_Value']:,.0f}."
+            f"{hv} ({hvr['Area']}) has the highest home value at ${hvr['Real_Home_Count']:,.0f}."
         )
         # most vessels
         vs = sel['Real_Boat_Count'].idxmax(); vr=sel.loc[vs]
