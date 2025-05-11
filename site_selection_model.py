@@ -118,7 +118,7 @@ def render():
                 marker_line_width=0.2,
                 marker_line_color='rgba(0,0,0,0.05)'
             )
-            fig_map.update_layout(height=600, margin={"l":0,"r":0,"t":0,"b":0})
+            fig_map.update_layout(height=640, margin={"l":0,"r":0,"t":0,"b":0})
             st.plotly_chart(fig_map, use_container_width=True)
 
         # ---- 4b) Top ZIPs table ----
