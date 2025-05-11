@@ -186,12 +186,13 @@ def render():
         selected_zips.append(zc)
 
     # ─── 6) ZIP Summaries ──────────────────────────────────────────────────────
-    factors = [
-        ("Real_Home_Growth",   "Home Value Growth"),
-        ("Real_DivRate",       "Divorce Rate (%)"),
-        ("Real_Boat_Count",    "Vessels"),
-        ("Real_Median_Income", "Median Income"),
-        ("Real_Home_Count",    "Homes > $1M"),
+    summary_factors = [
+        ("HomeValueGrowth","Home Value Growth"),
+        ("Wealth Score","Wealth Score"),
+        ("Recreational Vessel Count","Vessels"),
+        ("Median_Income","Median Income"),
+        ("Real_Divorce_Rate","Divorce Rate (%)"),
+        ("Real_Home_Count","Homes > $1M"),
     ]
 
     sum_cols = st.columns(3)
