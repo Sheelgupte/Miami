@@ -86,39 +86,48 @@ def render():
                 st.error(f"Couldn’t fetch GeoJSON from:\n{geojson_url}\n\n{e}")
                 return
 
-            max_score = filtered["Wealth Score"].max()
-            thr = 1  # or 20/max_score if you like dynamic
-            colorscale = [
-                [0.0, "lightblue"],
-                [thr, "blue"],
-                [thr, "red"],
-                [1.0, "red"],
-            ]
+        # ─── inside your render(), just before px.choropleth_mapbox ────────────────
 
-            fig_map = px.choropleth_mapbox(
-                filtered,
-                geojson=geojson,
-                locations="ZIP Code",
-                color="Wealth Score",
-                range_color=(0,1),
-                color_continuous_scale=colorscale,
-                mapbox_style="mapbox://styles/mapbox/streets-v11",
-                featureidkey="properties.ZCTA5CE10",
-                center={"lat":27.8,"lon":-81.7},
-                zoom=5.7,
-                opacity=0.6,
-                hover_data={
-                    "Real_Median_Income": True,
-                    "Real_Home_Count":    True,
-                    "Private School Count": True
-                }
-            )
-            fig_map.update_traces(
-                marker_line_width=0.2,
-                marker_line_color='rgba(0,0,0,0.05)'
-            )
-            fig_map.update_layout(height=600, margin={"l":0,"r":0,"t":0,"b":0})
-            st.plotly_chart(fig_map, use_container_width=True)
+        # 1) figure out the absolute threshold = the 5th‐highest wealth score
+        max_s = filtered["Wealth Score"].max()
+        top5 = filtered["Wealth Score"].nlargest(5)
+        threshold_abs = top5.min() if len(top5) >= 5 else max_s  # fallback if <5 rows
+        
+        # 2) convert to a 0–1 fraction of the domain
+        rel_thr = threshold_abs / max_s if max_s > 0 else 1.0
+        
+        # 3) build your colorscale
+        colorscale = [
+            [0.0, "lightblue"],   # lowest scores → lightblue
+            [rel_thr, "blue"],    # up to the 5th-highest → gradient → blue
+            [rel_thr, "red"],     # then everything above that → red
+            [1.0, "red"],         # through the max → red
+        ]
+
+        fig_map = px.choropleth_mapbox(
+            filtered,
+            geojson=geojson,
+            locations="ZIP Code",
+            color="Wealth Score",
+            range_color=(0, max_s),
+            color_continuous_scale=colorscale,
+            mapbox_style="mapbox://styles/mapbox/streets-v11",
+            featureidkey="properties.ZCTA5CE10",
+            center={"lat": 27.8, "lon": -81.7},
+            zoom=5.7,
+            opacity=0.6,
+            hover_data={
+                "Real_Median_Income": True,
+                "Real_Home_Count":    True,
+                "Private School Count": True
+            }
+        )
+        fig_map.update_traces(
+            marker_line_width=0.2,
+            marker_line_color='rgba(0,0,0,0.05)'
+        )
+        fig_map.update_layout(height=600, margin={"l":0, "r":0, "t":0, "b":0})
+        st.plotly_chart(fig_map, use_container_width=True)
 
         # ---- 4b) Top ZIPs table ----
         with table_col:
