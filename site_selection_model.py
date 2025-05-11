@@ -88,8 +88,8 @@ def render():
                 
             # 1) figure out the absolute threshold = the 5th‐highest wealth score
             max_s = filtered["Wealth Score"].max()
-            top5 = filtered["Wealth Score"].nlargest(5)
-            threshold_abs = top5.min() if len(top5) >= 5 else max_s  # fallback if <5 rows
+            top5 = filtered["Wealth Score"].nlargest(8)
+            threshold_abs = top5.min() if len(top8) >= 8 else max_s  # fallback if <8 rows
             
             # 2) convert to a 0–1 fraction of the domain
             rel_thr = threshold_abs / max_s if max_s > 0 else 1.0
@@ -133,7 +133,7 @@ def render():
             with hcol: st.subheader("👑 Top ZIP Codes")
             with chk:  show_all = st.checkbox("Show all ZIPs", key="show_all")
 
-            n = len(filtered) if show_all else 5
+            n = len(filtered) if show_all else 8
             topn = (
                 filtered
                   .nlargest(n, "Wealth Score")
