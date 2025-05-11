@@ -87,8 +87,8 @@ def render():
                 return
 
             max_s = filtered["Wealth Score"].max()
-            top5 = filtered["Wealth Score"].nlargest(5)
-            threshold_abs = top5.min() if len(top5) >= 5 else max_s  # fallback if <5 rows
+            top8 = filtered["Wealth Score"].nlargest(8)
+            threshold_abs = top8.min() if len(top8) >= 8 else max_s  # fallback if <8 rows
             
             # 2) convert to a 0–1 fraction of the domain
             rel_thr = threshold_abs / max_s if max_s > 0 else 1.0
@@ -96,7 +96,7 @@ def render():
             # 3) build your colorscale
             colorscale = [
                 [0.0, "lightblue"],   # lowest scores → lightblue
-                [rel_thr, "blue"],    # up to the 5th-highest → gradient → blue
+                [rel_thr, "blue"],    # up to the 8th-highest → gradient → blue
                 [rel_thr, "red"],     # then everything above that → red
                 [1.0, "red"],         # through the max → red
             ]
@@ -132,7 +132,7 @@ def render():
             with hcol: st.subheader("👑 Top ZIP Codes")
             with chk:  show_all = st.checkbox("Show all ZIPs", key="show_all")
 
-            n = len(filtered) if show_all else 5
+            n = len(filtered) if show_all else 8
             topn = (
                 filtered
                   .nlargest(n, "Wealth Score")
