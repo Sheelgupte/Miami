@@ -56,9 +56,9 @@ def dashboard():
       /* enlarge the "Models" header */
       .css-1v3fvcr h2 { font-size:24px !important; }
       /* enlarge each radio option label */
-      [data-testid="stRadio"] label {
+      label[data-baseweb="radio"] {
         font-size: 18px !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
       }
     </style>
     """, unsafe_allow_html=True)
