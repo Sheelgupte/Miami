@@ -54,17 +54,47 @@ def render():
     min_grw, max_grw     = float(df["Real_Home_Growth"].min()),      float(df["Real_Home_Growth"].max())
     min_div, max_div     = float(df["Real_Divorce_Rate"].min()),     float(df["Real_Divorce_Rate"].max())
 
-    # first row
+    # first row of sliders
     c1, _, c2, __, c3 = st.columns([3,1,3,1,3])
-    income_med  = c1.slider("Median Income", min_med, max_med, (min_med, max_med), step=5000)
-    private_sch = c2.slider("Private School Count", min_priv, max_priv, (min_priv, max_priv))
-    boat_ct     = c3.slider("Recreational Vessel Count", min_boat, max_boat, (min_boat, max_boat))
+    income_med  = c1.slider(
+        "Median Income",
+        min_med, max_med,
+        (min_med, max_med),
+        step=5000
+    )
+    private_sch = c2.slider(
+        "Private School Count",
+        min_priv, max_priv,
+        (min_priv, max_priv),
+        step=1
+    )
+    boat_ct     = c3.slider(
+        "Recreational Vessel Count",
+        min_boat, max_boat,
+        (min_boat, max_boat),
+        step=1
+    )
 
-    # second row
+    # second row of sliders
     c4, ___, c5, ____, c6 = st.columns([3,1,3,1,3])
-    homes_gt_1m = c4.slider("Homes > $1M Count", min_homes, max_homes, (min_homes, max_homes))
-    home_grw    = c5.slider("Home Value Growth (%)", min_grw, max_grw, (min_grw, max_grw))
-    divorce_rt  = c6.slider("Divorce Rate (%)", min_div, max_div, (min_div, max_div))
+    homes_gt_1m = c4.slider(
+        "Homes > $1M Count",
+        min_homes, max_homes,
+        (min_homes, max_homes),
+        step=1
+    )
+    home_grw    = c5.slider(
+        "Home Value Growth (%)",
+        min_grw, max_grw,
+        (min_grw, max_grw),
+        step=1.0
+    )
+    divorce_rt  = c6.slider(
+        "Divorce Rate (%)",
+        min_div, max_div,
+        (min_div, max_div),
+        step=0.1
+    )
 
     # ─── 3) Filter Data ────────────────────────────────────────────────────────
     filtered = df[
@@ -79,14 +109,16 @@ def render():
     # recompute “1 = highest wealth” rank
     filtered = filtered.copy()
     filtered["Rank"] = (
-        filtered["Wealth Score"].rank(method="first", ascending=False).astype(int)
+        filtered["Wealth Score"]
+          .rank(method="first", ascending=False)
+          .astype(int)
     )
 
     # ─── 4) Map & Top-ZIPs side by side ────────────────────────────────────────
     with st.container():
         map_col, table_col = st.columns([3,2])
 
-        # ---- Map ----
+        # Map
         with map_col:
             st.subheader("📍 Florida ZIP Map")
             GITHUB_BASE = "https://raw.githubusercontent.com/Sheelgupte/Miami/main/geojson"
@@ -97,10 +129,10 @@ def render():
                 st.error(f"Couldn’t fetch GeoJSON:\n{e}")
                 return
 
-            max_s = filtered["Wealth Score"].max()
-            top5 = filtered["Wealth Score"].nlargest(5)
-            thr_abs = top5.min() if len(top5)>=5 else max_s
-            thr_rel = thr_abs / max_s if max_s>0 else 1.0
+            max_s   = filtered["Wealth Score"].max()
+            top5    = filtered["Wealth Score"].nlargest(5)
+            thr_abs = top5.min() if len(top5) >= 5 else max_s
+            thr_rel = thr_abs / max_s if max_s > 0 else 1.0
 
             colorscale = [
                 [0.0, "lightblue"],
@@ -122,11 +154,13 @@ def render():
                     "Real_Divorce_Rate":  True
                 }
             )
-            fig_map.update_traces(marker_line_width=0.2, marker_line_color='rgba(0,0,0,0.05)')
-            fig_map.update_layout(height=600, margin={"l":0,"r":0,"t":0,"b":0})
+            fig_map.update_traces(marker_line_width=0.2,
+                                  marker_line_color='rgba(0,0,0,0.05)')
+            fig_map.update_layout(height=600,
+                                  margin={"l":0,"r":0,"t":0,"b":0})
             st.plotly_chart(fig_map, use_container_width=True)
 
-        # ---- Top-ZIPs table ----
+        # Top ZIPs table
         with table_col:
             hdr, chk = st.columns([4,2])
             with hdr: st.subheader("👑 Top ZIP Codes")
@@ -148,7 +182,8 @@ def render():
 
             html = topn.to_html(index=False, justify="center")
             st.markdown(
-                f"<div style='height:600px; overflow-y:auto; border:1px solid #ddd; border-radius:4px;'>{html}</div>",
+                f"<div style='height:600px; overflow-y:auto;"
+                " border:1px solid #ddd; border-radius:4px;'>{html}</div>",
                 unsafe_allow_html=True
             )
 
@@ -164,12 +199,12 @@ def render():
 
     # ─── 6) ZIP Summaries ──────────────────────────────────────────────────────
     summary_factors = [
-        ("HomeValueGrowth",   "Home Value Growth"),
-        ("Wealth Score",      "Wealth Score"),
+        ("HomeValueGrowth","Home Value Growth"),
+        ("Wealth Score","Wealth Score"),
         ("Recreational Vessel Count","Vessels"),
-        ("Median_Income",     "Median Income"),
-        ("Real_Divorce_Rate", "Divorce Rate (%)"),
-        ("Real_Home_Count",   "Homes > $1M"),
+        ("Median_Income","Median Income"),
+        ("Real_Divorce_Rate","Divorce Rate (%)"),
+        ("Real_Home_Count","Homes > $1M"),
     ]
     sum_cols = st.columns(3)
     for col, zc in zip(sum_cols, selected_zips):
@@ -184,12 +219,12 @@ def render():
     # ─── 7) Radar & AI Insights ───────────────────────────────────────────────
     st.subheader("📊 Radar & AI Insights")
     radar_factors = [
-        ("HomeValueGrowth",   "Home Value Growth"),
-        ("Real_Divorce_Rate", "Divorce Rate (%)"),
+        ("HomeValueGrowth","Home Value Growth"),
+        ("Real_Divorce_Rate","Divorce Rate (%)"),
         ("Recreational Vessel Count","Vessels"),
-        ("Median_Income",     "Median Income"),
-        ("Mean_Income",       "Mean Income"),
-        ("Real_Home_Count",   "Homes > $1M"),
+        ("Median_Income","Median Income"),
+        ("Mean_Income","Mean Income"),
+        ("Real_Home_Count","Homes > $1M"),
     ]
     rcol, _, icol = st.columns([3,0.5,2])
 
