@@ -150,7 +150,7 @@ def render():
         # render no-index HTML table
         html = topn.to_html(index=False, justify='center')
         scrollable_table = f"""
-        <div style="height:600px; overflow-y:auto; border:1px solid #ddd; border-radius:4px;">
+        <div style="height:680px; overflow-y:auto; border:1px solid #ddd; border-radius:4px;">
           {html}
         </div>
         """
