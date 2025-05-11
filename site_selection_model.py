@@ -44,7 +44,7 @@ def render():
     MAX_BOAT  = 800
 
     df["Real_Median_Income"] = df["Median_Income"]
-    df["Real_Mean_Income"]   = df["Divorce Rate"]
+    df["Real_DivRate"]   = df["Divorce Rate"]
     df["Real_Home_Count"]    = df["Home1MCount"]
     df["Real_Home_Growth"]   = df["HomeValueGrowth"] * 100
     df["Real_Boat_Count"]    = df["Recreational Vessel Count"]
@@ -53,7 +53,7 @@ def render():
     # ─── 2) In-page filters (3×2) ──────────────────────────────────────────────
     c1, _, c2, __, c3 = st.columns([3,1,3,1,3])
     income_med  = c1.slider("Median Income", 20_000, MAX_INC, (20_000, MAX_INC), step=5_000)
-    income_mean = c2.slider("Mean Income",   20_000, MAX_INC, (20_000, MAX_INC), step=5_000)
+    DivRate = c2.slider("DivorceRate",   20_000, MAX_INC, (20_000, MAX_INC), step=5_000)
     private_sch = c3.slider("Private School Count", 0, 15, (0, 15))
 
     c4, ___, c5, ____, c6 = st.columns([3,1,3,1,3])
@@ -64,7 +64,7 @@ def render():
     # ─── 3) Filter Data ───────────────────────────────────────────────────────
     filtered = df[
         df["Real_Median_Income"].between(*income_med) &
-        df["Real_Mean_Income"].between(*income_mean) &
+        df["Real_DivRate"].between(*DivRate) &
         df["Private School Count"].between(*private_sch) &
         df["Real_Boat_Count"].between(*boat_ct) &
         df["Real_Home_Count"].between(*homes_gt_1m) &
@@ -190,7 +190,7 @@ def render():
         ("Wealth Score",      "Wealth Score"),
         ("Recreational Vessel Count", "Vessels"),
         ("Median_Income",     "Median Income"),
-        ("Mean_Income",       "Mean Income"),
+        ("DivRate",       "DivRate"),
         ("Home1MCount",       "Homes > $1M")
     ]
     sum_cols = st.columns(3)
